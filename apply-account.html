@@ -277,7 +277,13 @@ form.addEventListener("submit",function(e){e.preventDefault();if(!check(steps[cu
 function closeM(){modal.hidden=true;document.body.style.overflow="";}
 modal.addEventListener("click",function(e){if(e.target===modal||e.target.closest("[data-close]"))closeM();});
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!modal.hidden)closeM();});
-conds();totals();form.querySelectorAll(".apf-rows").forEach(rowBtns);
+function prefill(){var q=new URLSearchParams(location.search),n=0;q.forEach(function(v,k){var els=form.querySelectorAll('[name="'+k+'"]');
+  els.forEach(function(el){if(el.type==="radio"||el.type==="checkbox"){if(el.value===v){el.checked=true;n++;}}
+    else if(el.tagName==="SELECT"){[].forEach.call(el.options,function(o){if(o.value===v||o.text===v){el.value=o.value;n++;}});}
+    else{el.value=el.hasAttribute("data-money")?Number(v).toLocaleString("en-AU"):v;n++;}});});
+  if(n){conds();var box=document.createElement("p");box.setAttribute("role","status");box.style.cssText="margin:0 0 24px;padding:14px 18px;border-radius:14px;background:#EAF6E6;font-size:15px;line-height:1.5;color:#202023";
+    box.textContent="We've filled in the details from your calculation. Check them as you go.";var card=form.querySelector(".apf-card");card.insertBefore(box,card.firstChild);}}
+conds();prefill();totals();form.querySelectorAll(".apf-rows").forEach(rowBtns);
 })();
 </script><script>(function(){var b=document.querySelector(".menu-btn"),n=document.querySelector('nav[aria-label="Main"]');if(b&&n)b.addEventListener("click",function(){var o=n.classList.toggle("open");b.setAttribute("aria-expanded",o);b.textContent=o?"Close":"Menu";});})();</script><script>document.querySelectorAll("form:not(.apf)").forEach(function(f){f.addEventListener("submit",function(e){e.preventDefault();});var b=f.querySelector("button");if(b)b.addEventListener("click",function(){b.textContent="Thanks! (Preview only: form not connected)";});});</script>
 <style>.srch[hidden],.ck[hidden]{display:none!important}</style><div class="srch" hidden role="dialog" aria-modal="true" aria-label="Search the site" style="position:fixed;inset:0;z-index:95;background:rgba(32,32,35,.55);display:flex;justify-content:center;align-items:flex-start;padding:72px 16px 16px;box-sizing:border-box;">
